@@ -4,109 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Dudu ❤️ Für Dich</title>
-<style>
-  :root{
-    --bg:#fff5f7;
-    --card:#fff;
-    --accent:#d46a7a;
-    --muted:#6e5964;
-    --shadow: 0 10px 30px rgba(90,60,80,0.10);
-    --brown-1: #8d5a35;
-    --brown-2: #c79361;
-    --brown-3: #6b3f26;
-    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  }
-  html,body{
-    height:100%; margin:0;
-    background: linear-gradient(180deg,var(--bg),#ffffff);
-    display:flex; align-items:center; justify-content:center;
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    padding:24px;
-  }
-
-  .wrap{
-    width:100%; max-width:520px; background:var(--card);
-    border-radius:18px; box-shadow:var(--shadow); padding:24px;
-    text-align:center;
-  }
-  h1{margin:0 0 8px;font-size:20px;color:var(--accent)}
-  p.lead{margin:0 0 14px;color:var(--muted);font-size:14px}
-
-  .stage{position:relative;padding:18px 0 8px}
-
-  /* Image container */
-  .dudu{
-    width:300px; height:300px; margin:0 auto;
-    display:grid; place-items:center;
-    cursor:pointer; user-select:none;
-    border-radius:20px; position:relative;
-    transition: transform 260ms cubic-bezier(.2,.9,.3,1);
-  }
-  .dudu:focus{outline:3px solid rgba(212,106,122,0.18); outline-offset:6px; border-radius:18px;}
-
-  .dudu img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* ensures the image fits within the container without distortion */
-  }
-
-  /* kiss animation (scale + tilt) */
-  .dudu.kiss{ transform: scale(1.06) rotate(-3deg); transition-duration:300ms; }
-
-  /* subtle breathing when idle - This will not work well on a JPG, but we'll leave it as an example */
-  .dudu.idle{ animation:breath 3000ms ease-in-out infinite; transform-origin:50% 50%; }
-  @keyframes breath{
-    0%{ transform: translateY(0) scale(1) }
-    50%{ transform: translateY(-2px) scale(1.01) }
-    100%{ transform: translateY(0) scale(1) }
-  }
-
-  /* speech bubble */
-  .bubble{
-    position:absolute; left:50%; transform:translateX(-50%);
-    top:8px; max-width:86%;
-    background: linear-gradient(180deg,#fff,#fff7fb);
-    border-radius:14px; padding:12px 14px; font-size:16px; color:#4d3138;
-    box-shadow:0 8px 22px rgba(150,90,120,0.12);
-    opacity:0; pointer-events:none; transform-origin:50% 100%;
-    transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.9,.3,1);
-  }
-  .bubble.show{ opacity:1; transform: translateX(-50%) translateY(8px) scale(1); }
-  .bubble small{ display:block; font-size:12px; color:#8a6570; margin-top:6px; }
-
-  /* hearts */
-  .hearts{
-    position:absolute; left:50%; top:36%;
-    pointer-events:none; transform:translateX(-50%);
-    width:160px; height:160px;
-  }
-  .heart{
-    position:absolute; width:22px; height:22px; opacity:0; transform-origin:center;
-  }
-  .heart svg{width:100%;height:100%}
-  .heart.animate{ animation:popHeart 800ms cubic-bezier(.2,.9,.3,1) forwards; }
-  @keyframes popHeart{
-    0%{ transform:translateY(0) scale(0.2); opacity:0; }
-    25%{ opacity:1; }
-    60%{ transform:translateY(-60px) scale(1.05); opacity:1; }
-    100%{ transform:translateY(-120px) scale(0.8); opacity:0; }
-  }
-
-  .hint{font-size:13px;color:#b07d99;margin-top:10px}
-
-  /* responsive */
-  @media (max-width:420px){
-    .dudu{ width:240px; height:240px }
-    .bubble{ font-size:15px }
-  }
-
-  /* small details: paw/shadow glow */
-  .shadow-oval{
-    position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
-    width:160px; height:28px; border-radius:999px; background:linear-gradient(180deg, rgba(120,80,110,0.06), rgba(120,80,110,0.02));
-    filter: blur(2px); pointer-events:none;
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="wrap" role="main" aria-labelledby="title">
@@ -138,13 +36,58 @@
   const bubble = document.getElementById('bubble');
   const hearts = Array.from(document.querySelectorAll('.heart'));
 
-  // Umfangreiche Sprücheliste mit 5 verschiedenen Sätzen
+  // umfangreiche Sprücheliste (einmalig, wird zufällig gemischt und durchlaufen ohne Wiederholung)
   const phrasesOriginal = [
-    "Sori, meine Liebe zu dir ist unendlich. ❤️",
-    "Jusuf und Sori, eine Liebe für die Ewigkeit. ❤️",
-    "Sori, ich bin unendlich dankbar für dich. ❤️",
-    "Sori, ich liebe dich, mein Engel. ❤️",
-    "Josi ist so froh, dich an seiner Seite zu haben. ❤️"
+    "Du bist mein Lieblingsgedanke am Morgen.",
+    "Dein Lächeln macht meinen Tag heller.",
+    "Mit dir ist jedes Abenteuer süßer.",
+    "Ich liebe deine Art zu träumen.",
+    "Du bist mein ruhiger Hafen im Sturm.",
+    "Deine Nähe fühlt sich nach Zuhause an.",
+    "Bei dir vergesse ich die Zeit.",
+    "Du bringst mein Herz zum Tanzen.",
+    "Deine Hand passt perfekt zu meiner.",
+    "Ich staune jeden Tag über dich.",
+    "Du bist das Beste, was mir passiert ist.",
+    "Ich liebe dich mehr, als Worte sagen können.",
+    "Dein Lachen ist mein Lieblingssong.",
+    "Ich mag die Art, wie du die Welt siehst.",
+    "Mit dir sind kleine Momente magisch.",
+    "Du gibst mir so viel Wärme.",
+    "Ich bewundere deine Sanftheit.",
+    "Ich küsse dich in Gedanken gerade jetzt.",
+    "Du bist mein heimliches großes Glück.",
+    "Deine Stimme ist Balsam für mich.",
+    "Ohne dich wär alles ein bisschen grauer.",
+    "Du bist die schönste Überraschung meines Lebens.",
+    "Ich liebe, wie du mich zum Lächeln bringst.",
+    "Jeden Tag mit dir möchte ich wiederholen.",
+    "Du machst mich mutiger und sanfter zugleich.",
+    "In deinen Augen finde ich Frieden.",
+    "Ich sammle gern Erinnerungen mit dir.",
+    "Du trägst Liebe in jeder kleinen Geste.",
+    "Danke, dass du so wundervoll bist.",
+    "Du bist mein Lieblingsmensch, immer.",
+    "Mit dir ist auch Stille angenehm.",
+    "Ich liebe es, wie du mich verstehst.",
+    "Du bist zärtlich und stark zugleich.",
+    "Deine Schritte klingen für mich wie Zuhause.",
+    "Ich bin so froh, dich zu haben.",
+    "Du machst mein Leben bunter.",
+    "Ich kann an nichts anderes denken als an dich.",
+    "Deine Umarmungen sind mein Lieblingsort.",
+    "Ich liebe deine kleinen Marotten.",
+    "Du bist mein Sonnenschein an Wolkentagen.",
+    "Ich bin stolz, dich an meiner Seite zu wissen.",
+    "Deine Nähe heilt mich.",
+    "Du bist mein kleines, großes Wunder.",
+    "Ich schicke dir tausend Küsschen.",
+    "Nur du weißt mein Herz so zu lesen.",
+    "Mit dir will ich alt werden.",
+    "Du bist mein süßester Gedanke vor dem Schlaf.",
+    "Ich liebe jedes Detail an dir.",
+    "Du bist mein Ruhepol und mein Abenteuer zugleich.",
+    "Dein Mut inspiriert mich täglich."
   ];
 
   // Fisher-Yates shuffle
@@ -162,7 +105,7 @@
 
   function nextPhrase(){
     if(idx >= phrases.length){
-      // reshuffle when all phrases are used
+      // reshuffle when alle durch sind
       phrases = shuffle(phrasesOriginal);
       idx = 0;
     }
@@ -172,7 +115,7 @@
   function showBubble(text){
     bubble.textContent = text;
     const small = document.createElement('small');
-    small.textContent = "— Dudu";
+    small.textContent = "— Sori";
     bubble.appendChild(small);
     bubble.classList.add('show');
     // hide after 3s
