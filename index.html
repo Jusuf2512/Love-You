@@ -5,386 +5,277 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Dudu ❤️ Für Dich</title>
 <style>
-  :root{
-    --bg:#fff5f7;
-    --card:#fff;
-    --accent:#d46a7a;
-    --muted:#6e5964;
-    --shadow: 0 10px 30px rgba(90,60,80,0.10);
-    --brown-1: #8d5a35;
-    --brown-2: #c79361;
-    --brown-3: #6b3f26;
-    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
-  }
-  html,body{
-    height:100%;
-    margin:0;
-    background: linear-gradient(180deg,var(--bg),#ffffff);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    padding:24px;
-  }
+  :root{
+    --bg:#fff5f7;
+    --card:#fff;
+    --accent:#d46a7a;
+    --muted:#6e5964;
+    --shadow: 0 10px 30px rgba(90,60,80,0.10);
+    --brown-1: #8d5a35;
+    --brown-2: #c79361;
+    --brown-3: #6b3f26;
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  }
+  html,body{
+    height:100%; margin:0;
+    background: linear-gradient(180deg,var(--bg),#ffffff);
+    display:flex; align-items:center; justify-content:center;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    padding:24px;
+  }
 
-  .wrap{
-    width:100%;
-    max-width:520px;
-    background:var(--card);
-    border-radius:18px;
-    box-shadow:var(--shadow);
-    padding:24px;
-    text-align:center;
-  }
-  h1{
-    margin:0 0 8px;
-    font-size:20px;
-    color:var(--accent);
-  }
-  p.lead{
-    margin:0 0 14px;
-    color:var(--muted);
-    font-size:14px;
-  }
+  .wrap{
+    width:100%; max-width:520px; background:var(--card);
+    border-radius:18px; box-shadow:var(--shadow); padding:24px;
+    text-align:center;
+  }
+  h1{margin:0 0 8px;font-size:20px;color:var(--accent)}
+  p.lead{margin:0 0 14px;color:var(--muted);font-size:14px}
 
-  .stage{
-    position:relative;
-    padding:18px 0 8px;
-  }
+  .stage{position:relative;padding:18px 0 8px}
 
-  /* Image container */
-  .dudu{
-    width:300px;
-    height:300px;
-    margin:0 auto;
-    display:grid;
-    place-items:center;
-    cursor:pointer;
-    user-select:none;
-    border-radius:20px;
-    position:relative;
-    transition: transform 260ms cubic-bezier(.2,.9,.3,1);
-  }
-  .dudu:focus{
-    outline:3px solid rgba(212,106,122,0.18);
-    outline-offset:6px;
-    border-radius:18px;
-  }
+  /* Image container */
+  .dudu{
+    width:300px; height:300px; margin:0 auto;
+    display:grid; place-items:center;
+    cursor:pointer; user-select:none;
+    border-radius:20px; position:relative;
+    transition: transform 260ms cubic-bezier(.2,.9,.3,1);
+  }
+  .dudu:focus{outline:3px solid rgba(212,106,122,0.18); outline-offset:6px; border-radius:18px;}
 
-  .dudu img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+  .dudu img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* ensures the image fits within the container without distortion */
+  }
 
-  /* kiss animation (scale + tilt) */
-  .dudu.kiss{
-    transform: scale(1.06) rotate(-3deg);
-    transition-duration:300ms;
-  }
+  /* kiss animation (scale + tilt) */
+  .dudu.kiss{ transform: scale(1.06) rotate(-3deg); transition-duration:300ms; }
 
-  /* subtle breathing when idle - This will not work well on a JPG, but we'll leave it as an example */
-  .dudu.idle{
-    animation:breath 3000ms ease-in-out infinite;
-    transform-origin:50% 50%;
-  }
-  @keyframes breath{
-    0%{ transform: translateY(0) scale(1); }
-    50%{ transform: translateY(-2px) scale(1.01); }
-    100%{ transform: translateY(0) scale(1); }
-  }
+  /* subtle breathing when idle - This will not work well on a JPG, but we'll leave it as an example */
+  .dudu.idle{ animation:breath 3000ms ease-in-out infinite; transform-origin:50% 50%; }
+  @keyframes breath{
+    0%{ transform: translateY(0) scale(1) }
+    50%{ transform: translateY(-2px) scale(1.01) }
+    100%{ transform: translateY(0) scale(1) }
+  }
 
-  /* speech bubble */
-  .bubble{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    top:8px;
-    max-width:86%;
-    background: linear-gradient(180deg,#fff,#fff7fb);
-    border-radius:14px;
-    padding:12px 14px;
-    font-size:16px;
-    color:#4d3138;
-    box-shadow:0 8px 22px rgba(150,90,120,0.12);
-    opacity:0;
-    pointer-events:none;
-    transform-origin:50% 100%;
-    transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.9,.3,1);
-  }
-  .bubble.show{
-    opacity:1;
-    transform: translateX(-50%) translateY(8px) scale(1);
-  }
-  .bubble small{
-    display:block;
-    font-size:12px;
-    color:#8a6570;
-    margin-top:6px;
-  }
+  /* speech bubble */
+  .bubble{
+    position:absolute; left:50%; transform:translateX(-50%);
+    top:8px; max-width:86%;
+    background: linear-gradient(180deg,#fff,#fff7fb);
+    border-radius:14px; padding:12px 14px; font-size:16px; color:#4d3138;
+    box-shadow:0 8px 22px rgba(150,90,120,0.12);
+    opacity:0; pointer-events:none; transform-origin:50% 100%;
+    transition: opacity 240ms ease, transform 240ms cubic-bezier(.2,.9,.3,1);
+  }
+  .bubble.show{ opacity:1; transform: translateX(-50%) translateY(8px) scale(1); }
+  .bubble small{ display:block; font-size:12px; color:#8a6570; margin-top:6px; }
 
-  /* hearts */
-  .hearts{
-    position:absolute;
-    left:50%;
-    top:36%;
-    pointer-events:none;
-    transform:translateX(-50%);
-    width:160px;
-    height:160px;
-  }
-  .heart{
-    position:absolute;
-    width:22px;
-    height:22px;
-    opacity:0;
-    transform-origin:center;
-  }
-  .heart svg{
-    width:100%;
-    height:100%;
-  }
-  .heart.animate{
-    animation:popHeart 800ms cubic-bezier(.2,.9,.3,1) forwards;
-  }
-  @keyframes popHeart{
-    0%{ transform:translateY(0) scale(0.2); opacity:0; }
-    25%{ opacity:1; }
-    60%{ transform:translateY(-60px) scale(1.05); opacity:1; }
-    100%{ transform:translateY(-120px) scale(0.8); opacity:0; }
-  }
+  /* hearts */
+  .hearts{
+    position:absolute; left:50%; top:36%;
+    pointer-events:none; transform:translateX(-50%);
+    width:160px; height:160px;
+  }
+  .heart{
+    position:absolute; width:22px; height:22px; opacity:0; transform-origin:center;
+  }
+  .heart svg{width:100%;height:100%}
+  .heart.animate{ animation:popHeart 800ms cubic-bezier(.2,.9,.3,1) forwards; }
+  @keyframes popHeart{
+    0%{ transform:translateY(0) scale(0.2); opacity:0; }
+    25%{ opacity:1; }
+    60%{ transform:translateY(-60px) scale(1.05); opacity:1; }
+    100%{ transform:translateY(-120px) scale(0.8); opacity:0; }
+  }
 
-  .hint{
-    font-size:13px;
-    color:#b07d99;
-    margin-top:10px;
-  }
+  .hint{font-size:13px;color:#b07d99;margin-top:10px}
 
-  /* responsive */
-  @media (max-width:420px){
-    .dudu{
-      width:240px;
-      height:240px;
-    }
-    .bubble{
-      font-size:15px;
-    }
-  }
+  /* responsive */
+  @media (max-width:420px){
+    .dudu{ width:240px; height:240px }
+    .bubble{ font-size:15px }
+  }
 
-  /* small details: paw/shadow glow */
-  .shadow-oval{
-    position:absolute;
-    left:50%;
-    bottom:8px;
-    transform:translateX(-50%);
-    width:160px;
-    height:28px;
-    border-radius:999px;
-    background:linear-gradient(180deg, rgba(120,80,110,0.06), rgba(120,80,110,0.02));
-    filter: blur(2px);
-    pointer-events:none;
-  }
+  /* small details: paw/shadow glow */
+  .shadow-oval{
+    position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
+    width:160px; height:28px; border-radius:999px; background:linear-gradient(180deg, rgba(120,80,110,0.06), rgba(120,80,110,0.02));
+    filter: blur(2px); pointer-events:none;
+  }
 </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-labelledby="title">
-    <h1 id="title">Dudu — Dein süßer Bär</h1>
-    <p class="lead">Klick auf Dudu für einen Kuss und einen lieben Spruch 💕</p>
+  <div class="wrap" role="main" aria-labelledby="title">
+    <h1 id="title">Dudu — Dein süßer Bär</h1>
+    <p class="lead">Klick auf Dudu für einen Kuss und einen lieben Spruch 💕</p>
 
-    <div class="stage">
-      <div class="bubble" id="bubble" aria-live="polite" role="status"></div>
+    <div class="stage">
+      <div class="bubble" id="bubble" aria-live="polite" role="status"></div>
 
-      <div class="dudu idle" id="dudu" role="button" tabindex="0" aria-pressed="false" title="Auf Dudu tippen">
-        <img src="dudu_foto.jpg" alt="Ein süßer Cartoon-Bär mit Kapuzenpulli." />
-      </div>
+      <div class="dudu idle" id="dudu" role="button" tabindex="0" aria-pressed="false" title="Auf Dudu tippen">
+        <img src="dudu_foto.jpg" alt="Ein süßer Cartoon-Bär mit Kapuzenpulli." />
+      </div>
 
-      <div class="hearts" id="hearts" aria-hidden="true">
-        <div class="heart" style="left:60%; top:60%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff6fa3"/></svg></div>
-        <div class="heart" style="left:40%; top:55%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff9bb3"/></svg></div>
-        <div class="heart" style="left:50%; top:70%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff4f85"/></svg></div>
-      </div>
+      <div class="hearts" id="hearts" aria-hidden="true">
+        <div class="heart" style="left:60%; top:60%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff6fa3"/></svg></div>
+        <div class="heart" style="left:40%; top:55%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff9bb3"/></svg></div>
+        <div class="heart" style="left:50%; top:70%"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><path d="M32 54s-22-12.5-22-28c0-8.8 6.2-14 13-14 5 0 9 3.6 9 3.6S38 12 43 12c6.8 0 13 5.2 13 14 0 15.5-22 28-22 28z" fill="#ff4f85"/></svg></div>
+      </div>
 
-      <div class="shadow-oval" aria-hidden="true"></div>
-    </div>
+      <div class="shadow-oval" aria-hidden="true"></div>
+    </div>
 
-    <div class="hint">Tipp: Tippe mehrmals – Dudu hat viele Sprüche ✨</div>
-  </div>
+    <div class="hint">Tipp: Tippe mehrmals – Dudu hat viele Sprüche ✨</div>
+  </div>
 
 <script>
 (function(){
-  const dudu = document.getElementById('dudu');
-  const bubble = document.getElementById('bubble');
-  const hearts = Array.from(document.querySelectorAll('.heart'));
+  const dudu = document.getElementById('dudu');
+  const bubble = document.getElementById('bubble');
+  const hearts = Array.from(document.querySelectorAll('.heart'));
 
-  // Umfangreiche Sprücheliste, in der die Namen abwechselnd verwendet werden
-  const phrasesOriginal = [
-    "Sori, meine Liebe zu dir ist unendlich. ❤️",
-    "Du bist der wichtigste Mensch in meinem Leben, Sori. ❤️",
-    "Josi liebt dich mehr als alles andere, Sori. ❤️",
-    "Sori, mit dir ist alles besser, dein Jusuf. ❤️",
-    "Mein Herz schlägt nur für dich, Sori. ❤️",
-    "Sori, du machst mein Leben komplett. ❤️",
-    "Jusuf denkt immer an dich, Sori. ❤️",
-    "Sori, du bist meine absolute Traumfrau. ❤️",
-    "Ich bin so glücklich, dich zu haben, Sori. ❤️",
-    "Josi ist so dankbar für dich. ❤️",
-    "Sori, deine Liebe ist mein größter Schatz. ❤️",
-    "Mit dir fühlt sich alles so richtig an, Sori. ❤️",
-    "Sori, du bist mein Zuhause. ❤️",
-    "Jusuf kann sich ein Leben ohne dich nicht vorstellen. ❤️",
-    "Sori, ich liebe dich von ganzem Herzen. ❤️",
-    "Josi ist unsterblich in dich verliebt, Sori. ❤️",
-    "Sori, du bist die Eine für mich. ❤️",
-    "Deine Umarmungen sind mein Lieblingsort, Sori. ❤️",
-    "Jusuf liebt jede Sekunde mit dir, Sori. ❤️",
-    "Sori, ich liebe dich für immer und ewig. ❤️",
-    "Ich liebe deine Nähe, Sori. ❤️",
-    "Sori, du bist der Mittelpunkt von Josis Welt. ❤️",
-    "Jusuf ist verrückt nach dir, Sori. ❤️",
-    "Sori, du bist mein Ein und Alles. ❤️",
-    "Sori, mein Herz gehört ganz allein dir. ❤️",
-    "Josi kann sein Glück kaum fassen. ❤️",
-    "Sori, du bist der Sonnenschein in meinem Leben. ❤️",
-    "Jusuf liebt es, dich zu lieben, Sori. ❤️",
-    "Sori, du bist das Schönste, was mir je passiert ist. ❤️",
-    "Du bist der hellste Stern in Josis Universum. ❤️",
-    "Sori, ich bin stolz, dich an meiner Seite zu wissen. ❤️",
-    "Jusuf's Herz schlägt nur für dich, Sori. ❤️",
-    "Sori, mit dir will ich alt werden. ❤️",
-    "Du bist meine Seelenverwandte, Sori. ❤️",
-    "Sori, ich liebe dich so wie du bist. ❤️",
-    "Josi ist immer für dich da. ❤️",
-    "Sori, deine Liebe ist bedingungslos für mich. ❤️",
-    "Jusuf wird dich immer lieben. ❤️",
-    "Sori, ich liebe dich mehr als alles andere. ❤️",
-    "Josi ist unendlich dankbar für dich, Sori. ❤️",
-    "Sori, du bist meine große Liebe. ❤️",
-    "Ich liebe dein Lächeln, Sori. ❤️",
-    "Du bist die Frau meiner Träume, Sori. ❤️",
-    "Jusuf's Liebe zu dir ist grenzenlos. ❤️",
-    "Sori, du bist das Beste, was mir je passiert ist. ❤️",
-    "Josi denkt an dich und lächelt. ❤️",
-    "Sori, du bist meine Liebe, mein Leben. ❤️",
-    "Sori, ich bin dein Josi. ❤️",
-    "Jusuf und Sori für immer. ❤️",
-    "Ich kann es kaum erwarten, dich zu sehen, Sori. ❤️",
-    "Sori, du bist meine einzige Liebe. ❤️",
-    "Josi weiß, dass du der richtige Mensch für ihn bist. ❤️",
-    "Sori, mein Herz, mein Leben, mein Glück. ❤️",
-    "Jusuf's Leben macht erst mit dir Sinn. ❤️",
-    "Sori, ich liebe dich mit jedem Atemzug. ❤️",
-    "Du bist meine Sonne, mein Mond, meine Sterne, Sori. ❤️",
-    "Josi wird dich immer in seinem Herzen tragen. ❤️",
-    "Sori, ich bin verrückt nach dir. ❤️",
-    "Jusuf kann ohne deine Liebe nicht leben, Sori. ❤️",
-    "Sori, du bist das Schönste auf der ganzen Welt. ❤️",
-    "Josi und Sori, eine Liebe für die Ewigkeit. ❤️",
-    "Sori, ich bin so glücklich mit dir. ❤️",
-    "Deine Liebe ist alles für Jusuf. ❤️",
-    "Sori, ich liebe dich, mein Engel. ❤️",
-    "Josi ist so stolz auf dich, Sori. ❤️",
-    "Sori, du bist die Königin meines Herzens. ❤️",
-    "Ich liebe es, wie du bist, Sori. ❤️",
-    "Sori, du bist die beste Frau der Welt. ❤️",
-    "Jusuf hat sich in dich verliebt, Sori. ❤️",
-    "Sori, ich kann mir kein Leben ohne dich vorstellen. ❤️",
-    "Sori, deine Liebe hat mein Leben verändert. ❤️",
-    "Josi liebt dein inneres und äußeres. ❤️",
-    "Sori, du bist mein Lebenssinn. ❤️",
-    "Jusuf und Sori, ein perfektes Team. ❤️",
-    "Sori, ich liebe dich mehr als Schokolade. ❤️",
-    "Josi liebt die Art wie du lachst, Sori. ❤️",
-    "Sori, ich bin unendlich glücklich, dich zu haben. ❤️",
-    "Jusuf's Liebe für dich ist tiefer als der Ozean. ❤️",
-    "Sori, du bist meine beste Freundin und meine Liebe. ❤️",
-    "Josi und Sori, ein wunderschöner Traum. ❤️"
-  ];
+  // umfangreiche Sprücheliste (einmalig, wird zufällig gemischt und durchlaufen ohne Wiederholung)
+  const phrasesOriginal = [
+    "Du bist mein Lieblingsgedanke am Morgen.",
+    "Dein Lächeln macht meinen Tag heller.",
+    "Mit dir ist jedes Abenteuer süßer.",
+    "Ich liebe deine Art zu träumen.",
+    "Du bist mein ruhiger Hafen im Sturm.",
+    "Deine Nähe fühlt sich nach Zuhause an.",
+    "Bei dir vergesse ich die Zeit.",
+    "Du bringst mein Herz zum Tanzen.",
+    "Deine Hand passt perfekt zu meiner.",
+    "Ich staune jeden Tag über dich.",
+    "Du bist das Beste, was mir passiert ist.",
+    "Ich liebe dich mehr, als Worte sagen können.",
+    "Dein Lachen ist mein Lieblingssong.",
+    "Ich mag die Art, wie du die Welt siehst.",
+    "Mit dir sind kleine Momente magisch.",
+    "Du gibst mir so viel Wärme.",
+    "Ich bewundere deine Sanftheit.",
+    "Ich küsse dich in Gedanken gerade jetzt.",
+    "Du bist mein heimliches großes Glück.",
+    "Deine Stimme ist Balsam für mich.",
+    "Ohne dich wär alles ein bisschen grauer.",
+    "Du bist die schönste Überraschung meines Lebens.",
+    "Ich liebe, wie du mich zum Lächeln bringst.",
+    "Jeden Tag mit dir möchte ich wiederholen.",
+    "Du machst mich mutiger und sanfter zugleich.",
+    "In deinen Augen finde ich Frieden.",
+    "Ich sammle gern Erinnerungen mit dir.",
+    "Du trägst Liebe in jeder kleinen Geste.",
+    "Danke, dass du so wundervoll bist.",
+    "Du bist mein Lieblingsmensch, immer.",
+    "Mit dir ist auch Stille angenehm.",
+    "Ich liebe es, wie du mich verstehst.",
+    "Du bist zärtlich und stark zugleich.",
+    "Deine Schritte klingen für mich wie Zuhause.",
+    "Ich bin so froh, dich zu haben.",
+    "Du machst mein Leben bunter.",
+    "Ich kann an nichts anderes denken als an dich.",
+    "Deine Umarmungen sind mein Lieblingsort.",
+    "Ich liebe deine kleinen Marotten.",
+    "Du bist mein Sonnenschein an Wolkentagen.",
+    "Ich bin stolz, dich an meiner Seite zu wissen.",
+    "Deine Nähe heilt mich.",
+    "Du bist mein kleines, großes Wunder.",
+    "Ich schicke dir tausend Küsschen.",
+    "Nur du weißt mein Herz so zu lesen.",
+    "Mit dir will ich alt werden.",
+    "Du bist mein süßester Gedanke vor dem Schlaf.",
+    "Ich liebe jedes Detail an dir.",
+    "Du bist mein Ruhepol und mein Abenteuer zugleich.",
+    "Dein Mut inspiriert mich täglich."
+  ];
 
-  // Fisher-Yates shuffle
-  function shuffle(arr){
-    const a = arr.slice();
-    for(let i=a.length-1;i>0;i--){
-      const j = Math.floor(Math.random()*(i+1));
-      [a[i],a[j]] = [a[j],a[i]];
-    }
-    return a;
-  }
+  // Fisher-Yates shuffle
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
 
-  let phrases = shuffle(phrasesOriginal);
-  let idx = 0;
+  let phrases = shuffle(phrasesOriginal);
+  let idx = 0;
 
-  function nextPhrase(){
-    if(idx >= phrases.length){
-      // reshuffle when all phrases are used
-      phrases = shuffle(phrasesOriginal);
-      idx = 0;
-    }
-    return phrases[idx++];
-  }
+  function nextPhrase(){
+    if(idx >= phrases.length){
+      // reshuffle when alle durch sind
+      phrases = shuffle(phrasesOriginal);
+      idx = 0;
+    }
+    return phrases[idx++];
+  }
 
-  function showBubble(text){
-    bubble.textContent = text;
-    const small = document.createElement('small');
-    small.textContent = "— Dein Josi/Jusuf ❤️";
-    bubble.appendChild(small);
-    bubble.classList.add('show');
-    // hide after 3s
-    clearTimeout(bubble._t);
-    bubble._t = setTimeout(()=> bubble.classList.remove('show'), 3000);
-  }
+  function showBubble(text){
+    bubble.textContent = text;
+    const small = document.createElement('small');
+    small.textContent = "— Dudu";
+    bubble.appendChild(small);
+    bubble.classList.add('show');
+    // hide after 3s
+    clearTimeout(bubble._t);
+    bubble._t = setTimeout(()=> bubble.classList.remove('show'), 3000);
+  }
 
-  function animateHearts(){
-    // pick 2-3 hearts and trigger animation staggered
-    hearts.forEach(h => h.classList.remove('animate'));
-    // a small stagger loop
-    hearts.forEach((h,i) => {
-      setTimeout(()=> {
-        h.classList.add('animate');
-      }, i*120);
-    });
-  }
+  function animateHearts(){
+    // pick 2-3 hearts and trigger animation staggered
+    hearts.forEach(h => h.classList.remove('animate'));
+    // a small stagger loop
+    hearts.forEach((h,i) => {
+      setTimeout(()=> {
+        h.classList.add('animate');
+      }, i*120);
+    });
+  }
 
-  function doKiss(){
-    // add kiss effect class
-    dudu.classList.remove('idle'); // stop breathing while kissing
-    dudu.classList.add('kiss');
-    dudu.setAttribute('aria-pressed','true');
-    // short soundless kiss: wiggle mouth by applying transform to svg mouth group (aria-hidden)
-    // remove classes after animation
-    setTimeout(()=> {
-      dudu.classList.remove('kiss');
-      dudu.classList.add('idle');
-      dudu.setAttribute('aria-pressed','false');
-    }, 700);
-  }
+  function doKiss(){
+    // add kiss effect class
+    dudu.classList.remove('idle'); // stop breathing while kissing
+    dudu.classList.add('kiss');
+    dudu.setAttribute('aria-pressed','true');
+    // short soundless kiss: wiggle mouth by applying transform to svg mouth group (aria-hidden)
+    // remove classes after animation
+    setTimeout(()=> {
+      dudu.classList.remove('kiss');
+      dudu.classList.add('idle');
+      dudu.setAttribute('aria-pressed','false');
+    }, 700);
+  }
 
-  function handleInteraction(){
-    const phrase = nextPhrase();
-    showBubble(phrase);
-    animateHearts();
-    doKiss();
-  }
+  function handleInteraction(){
+    const phrase = nextPhrase();
+    showBubble(phrase);
+    animateHearts();
+    doKiss();
+  }
 
-  // click + keyboard support
-  dudu.addEventListener('click', handleInteraction);
-  dudu.addEventListener('keydown', (ev) => {
-    if(ev.key === 'Enter' || ev.key === ' '){
-      ev.preventDefault();
-      handleInteraction();
-    }
-  });
+  // click + keyboard support
+  dudu.addEventListener('click', handleInteraction);
+  dudu.addEventListener('keydown', (ev) => {
+    if(ev.key === 'Enter' || ev.key === ' '){
+      ev.preventDefault();
+      handleInteraction();
+    }
+  });
 
-  // show first phrase shortly after load
-  setTimeout(()=> { showBubble(nextPhrase()); }, 700);
+  // show first phrase shortly after load
+  setTimeout(()=> { showBubble(nextPhrase()); }, 700);
 
-  // accessibility: announce when focus via keyboard
-  dudu.addEventListener('focus', () => {
-    dudu.style.boxShadow = "0 10px 30px rgba(150,90,120,0.12)";
-  });
-  dudu.addEventListener('blur', () => {
-    dudu.style.boxShadow = "";
-  });
+  // accessibility: announce when focus via keyboard
+  dudu.addEventListener('focus', () => {
+    dudu.style.boxShadow = "0 10px 30px rgba(150,90,120,0.12)";
+  });
+  dudu.addEventListener('blur', () => {
+    dudu.style.boxShadow = "";
+  });
 })();
 </script>
 </body>
