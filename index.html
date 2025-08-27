@@ -34,7 +34,6 @@
 
   .stage{position:relative;padding:18px 0 8px}
 
-  /* Image container */
   .dudu{
     width:300px; height:300px; margin:0 auto;
     display:grid; place-items:center;
@@ -47,13 +46,11 @@
   .dudu img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* ensures the image fits within the container without distortion */
+    object-fit: contain;
   }
 
-  /* kiss animation (scale + tilt) */
   .dudu.kiss{ transform: scale(1.06) rotate(-3deg); transition-duration:300ms; }
 
-  /* subtle breathing when idle - This will not work well on a JPG, but we'll leave it as an example */
   .dudu.idle{ animation:breath 3000ms ease-in-out infinite; transform-origin:50% 50%; }
   @keyframes breath{
     0%{ transform: translateY(0) scale(1) }
@@ -61,7 +58,6 @@
     100%{ transform: translateY(0) scale(1) }
   }
 
-  /* speech bubble */
   .bubble{
     position:absolute; left:50%; transform:translateX(-50%);
     top:8px; max-width:86%;
@@ -74,7 +70,6 @@
   .bubble.show{ opacity:1; transform: translateX(-50%) translateY(8px) scale(1); }
   .bubble small{ display:block; font-size:12px; color:#8a6570; margin-top:6px; }
 
-  /* hearts */
   .hearts{
     position:absolute; left:50%; top:36%;
     pointer-events:none; transform:translateX(-50%);
@@ -94,13 +89,11 @@
 
   .hint{font-size:13px;color:#b07d99;margin-top:10px}
 
-  /* responsive */
   @media (max-width:420px){
     .dudu{ width:240px; height:240px }
     .bubble{ font-size:15px }
   }
 
-  /* small details: paw/shadow glow */
   .shadow-oval{
     position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
     width:160px; height:28px; border-radius:999px; background:linear-gradient(180deg, rgba(120,80,110,0.06), rgba(120,80,110,0.02));
@@ -138,7 +131,6 @@
   const bubble = document.getElementById('bubble');
   const hearts = Array.from(document.querySelectorAll('.heart'));
 
-  // umfangreiche Sprücheliste (einmalig, wird zufällig gemischt und durchlaufen ohne Wiederholung)
   const phrasesOriginal = [
     "Du bist mein Lieblingsgedanke am Morgen.",
     "Dein Lächeln macht meinen Tag heller.",
@@ -192,7 +184,14 @@
     "Dein Mut inspiriert mich täglich."
   ];
 
-  // Fisher-Yates shuffle
+  const lovePhrases = [
+    "Ich liebe dich über alles auf der Welt.",
+    "Du bist mein Ein und Alles.",
+    "Mit dir an meiner Seite ist alles perfekt.",
+    "Meine Liebe zu dir wächst jeden Tag.",
+    "Du bist der wichtigste Mensch in meinem Leben."
+  ];
+
   function shuffle(arr){
     const a = arr.slice();
     for(let i=a.length-1;i>0;i--){
@@ -207,7 +206,6 @@
 
   function nextPhrase(){
     if(idx >= phrases.length){
-      // reshuffle when alle durch sind
       phrases = shuffle(phrasesOriginal);
       idx = 0;
     }
@@ -220,29 +218,21 @@
     small.textContent = "— Dudu";
     bubble.appendChild(small);
     bubble.classList.add('show');
-    // hide after 3s
     clearTimeout(bubble._t);
     bubble._t = setTimeout(()=> bubble.classList.remove('show'), 3000);
   }
 
   function animateHearts(){
-    // pick 2-3 hearts and trigger animation staggered
     hearts.forEach(h => h.classList.remove('animate'));
-    // a small stagger loop
     hearts.forEach((h,i) => {
-      setTimeout(()=> {
-        h.classList.add('animate');
-      }, i*120);
+      setTimeout(()=> { h.classList.add('animate'); }, i*120);
     });
   }
 
   function doKiss(){
-    // add kiss effect class
-    dudu.classList.remove('idle'); // stop breathing while kissing
+    dudu.classList.remove('idle');
     dudu.classList.add('kiss');
     dudu.setAttribute('aria-pressed','true');
-    // short soundless kiss: wiggle mouth by applying transform to svg mouth group (aria-hidden)
-    // remove classes after animation
     setTimeout(()=> {
       dudu.classList.remove('kiss');
       dudu.classList.add('idle');
@@ -255,9 +245,12 @@
     showBubble(phrase);
     animateHearts();
     doKiss();
+
+    // Liebessatz zufällig anzeigen
+    const loveMessage = lovePhrases[Math.floor(Math.random() * lovePhrases.length)];
+    setTimeout(() => showBubble(loveMessage), 400);
   }
 
-  // click + keyboard support
   dudu.addEventListener('click', handleInteraction);
   dudu.addEventListener('keydown', (ev) => {
     if(ev.key === 'Enter' || ev.key === ' '){
@@ -266,16 +259,10 @@
     }
   });
 
-  // show first phrase shortly after load
   setTimeout(()=> { showBubble(nextPhrase()); }, 700);
 
-  // accessibility: announce when focus via keyboard
-  dudu.addEventListener('focus', () => {
-    dudu.style.boxShadow = "0 10px 30px rgba(150,90,120,0.12)";
-  });
-  dudu.addEventListener('blur', () => {
-    dudu.style.boxShadow = "";
-  });
+  dudu.addEventListener('focus', () => { dudu.style.boxShadow = "0 10px 30px rgba(150,90,120,0.12)"; });
+  dudu.addEventListener('blur', () => { dudu.style.boxShadow = ""; });
 })();
 </script>
 </body>
